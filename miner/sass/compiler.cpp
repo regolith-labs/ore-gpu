@@ -3,7 +3,7 @@
 #include <Assembler/Assembler.h>
 
 HashXCompiler::HashXCompiler() : assembler() {
-    assembler.SetComputeCapability(89); // Ada Lovelace (RTX 40-series)
+    assembler.SetComputeCapability(89); // Explicitly set Ada CC 8.9
 }
 
 std::vector<uint8_t> HashXCompiler::compile(const hashx_program& prog) {

@@ -1,5 +1,6 @@
 #include <SASS/Tree/Tree.h>
 #include <SASS/Ada/Ada.h>  // For RTX 4090 (Ada Lovelace)
+#include <SASS/Ada/IMADInstruction.h>
 
 using namespace SASS::Ada;
 

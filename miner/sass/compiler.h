@@ -1,13 +1,13 @@
 #pragma once
 #include <vector>
 #include <cstdint>
-#include <SASS/Volta/Assembler.h>
+#include <SASS/Ada/Assembler.h>
 
 struct hashx_program;
 
 class HashXCompiler {
 private:
-    SASS::Volta::Assembler assembler;
+    SASS::Ada::Assembler assembler;
 
 public:
     HashXCompiler();
