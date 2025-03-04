@@ -4,6 +4,7 @@
 #include <program.h>
 
 SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
+    SASS::BasicBlock* current_target = nullptr;
     auto program = new SASS::Program();
     program->SetComputeCapability(75); // Match target GPU
     
@@ -22,11 +23,12 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
     for(const auto& instr : prog.code) {
         switch(instr.opcode) {
         case INSTR_ADD_RS:
-            block->AddInstruction(new SASS::Volta::IADDInstruction_VOLTA(
+            block->AddInstruction(new SASS::Volta::IADD3Instruction(
                 regs[instr.dst], 
-                regs[instr.src],
-                new SASS::Constant(instr.imm32),
-                SASS::RZ
+                regs[instr.src], 
+                new SASS::Constant(0x0, instr.imm32), // Bank and address
+                SASS::RZ,
+                SASS::PT // Predicate
             ));
             break;
         case INSTR_SMULH_R:
@@ -62,14 +64,14 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             block->AddInstruction(new SASS::Volta::XORInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                new SASS::Constant(instr.imm32)
+                new SASS::Constant(0x0, instr.imm32) // Bank (0x0) + Address
             ));
             break;
         case INSTR_ROR_C:
             block->AddInstruction(new SASS::Volta::RORInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                new SASS::Constant(instr.imm32)
+                new SASS::Constant(0x0, instr.imm32) // Bank (0x0) + Address
             ));
             break;
         case INSTR_ADD_C:
@@ -84,7 +86,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             block->AddInstruction(new SASS::Volta::XORInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                new SASS::Constant(instr.imm32)
+                new SASS::Constant(0x0, instr.imm32) // Bank (0x0) + Address
             ));
             break;
         case INSTR_TARGET:
@@ -95,32 +97,9 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
                 throw std::runtime_error("BRANCH without TARGET");
             }
             
-            // AND operation: temp = src & imm32
-            SASS::Register* temp = new SASS::Register(8);
-            SASS::Constant* mask = new SASS::Constant(instr.imm32);
-            block->AddInstruction(new SASS::Volta::ANDInstruction(
-                temp,
-                regs[instr.src],
-                mask
-            ));
-            
-            // Compare with zero
-            SASS::Register* zero = new SASS::Register(9);
-            block->AddInstruction(new SASS::Volta::CMPInstruction(
-                zero,
-                temp,
-                SASS::RZ
-            ));
-            
-            // Conditional branch
-            SASS::Register* cmp = new SASS::Register(10);
-            block->AddInstruction(new SASS::Volta::BRAInstruction(
-                cmp,
-                current_target
-            ));
-            
+            block->AddInstruction(new SASS::Volta::SSYInstruction(current_target));
             current_target = nullptr;
-            continue;
+            break;
         }
         default:
             throw std::runtime_error("Unknown instruction opcode");
