@@ -1,6 +1,6 @@
 #include "compiler.h"
 #include "translator.h"
-#include <SASS/Volta/Assembler.h>
+#include <Assembler/Assembler.h>
 
 HashXCompiler::HashXCompiler() : assembler() {
     assembler.SetComputeCapability(70); // Volta (CC 7.0)
