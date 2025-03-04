@@ -1,7 +1,7 @@
-[submodule "rNdN"]
-	path = thirdparty/rNdN
-	url = https://github.com/akrolik/rNdN
-
-[submodule "equix"]
+[submodule "thirdparty/equix"]
 	path = thirdparty/equix
 	url = https://github.com/tevador/equix.git
+
+[submodule "thirdparty/rNdN"]
+	path = thirdparty/rNdN
+	url = https://github.com/HardhatChad/rNdN.git

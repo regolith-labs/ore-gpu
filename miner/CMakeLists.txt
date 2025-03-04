@@ -12,6 +12,7 @@ target_include_directories(hashx_sass PRIVATE
     ${CMAKE_SOURCE_DIR}/thirdparty/rNdN/include
     ${CMAKE_SOURCE_DIR}/equix/include
     ${CUDA_INCLUDE_DIRS}
+    /usr/local/cuda/include  # Explicit path as fallback
 )
 
 target_link_libraries(hashx_sass PRIVATE

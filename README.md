@@ -1,5 +1,3 @@
-
-
 cmake:
 ```
 sudo apt install cmake
@@ -50,5 +48,12 @@ Build:
 cd build
 cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON ..
 ```
+
+## rNdN Modification
+The rNdN submodule has been modified to support CUDA 12.0. To maintain
+this change across updates:
+1. Apply patch after submodule updates:
+   `git submodule update --init --recursive && git apply patches/rndn-cuda12.patch`
+2. Or use our fork: `git submodule set-url thirdparty/rNdN https://github.com/YOUR_USER/rNdN.git`
 
 
