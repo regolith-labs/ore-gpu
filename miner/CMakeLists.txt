@@ -30,4 +30,8 @@ target_link_libraries(miner-tests PRIVATE
 )
 
 enable_testing()
-add_test(NAME miner-tests COMMAND miner-tests) 
+add_test(NAME miner-tests COMMAND miner-tests)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF) 
