@@ -36,14 +36,20 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             block->AddInstruction(new SASS::Volta::IMADInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Volta::IMADInstruction::Mode::HI
+                new SASS::Constant(0x0, 1),
+                SASS::RZ,
+                SASS::Volta::IMADInstruction::Mode::HI,
+                SASS::Volta::IMADInstruction::Flags::None
             ));
             break;
         case INSTR_UMULH_R:
             block->AddInstruction(new SASS::Volta::IMADInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Volta::IMADInstruction::Mode::HI
+                new SASS::Constant(0x0, 1),
+                SASS::RZ,
+                SASS::Volta::IMADInstruction::Mode::HI,
+                SASS::Volta::IMADInstruction::Flags::None
             ));
             break;
         case INSTR_MUL_R:
@@ -55,7 +61,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             break;
         case INSTR_SUB_R:
             block->AddInstruction(new SASS::Volta::IADD3Instruction(
-                regs[instr.dst], 
+                regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(0x0, -instr.imm32),
                 SASS::RZ,
@@ -76,7 +82,8 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
                 regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(0x0, instr.imm32),
-                SASS::Volta::SHFInstruction::Mode::R_ROR
+                SASS::Volta::SHFInstruction::Direction::R,
+                SASS::Volta::SHFInstruction::Type::ROTATE
             ));
             break;
         case INSTR_ADD_C:
@@ -106,7 +113,8 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             }
             
             block->AddInstruction(new SASS::Volta::BSSYInstruction(
-                new SASS::BasicBlockOperand(current_target)
+                new SASS::LabelOperand(current_target),
+                0
             ));
             current_target = nullptr;
             break;
