@@ -11,9 +11,9 @@ add_executable(miner-tests
 target_include_directories(hashx_sass PRIVATE
     ${CMAKE_SOURCE_DIR}/thirdparty/rNdN/include
     ${CMAKE_SOURCE_DIR}/thirdparty/equix/include
-    ${CMAKE_SOURCE_DIR}/thirdparty/equix/hashx/include  # Add HashX headers
+    ${CMAKE_SOURCE_DIR}/thirdparty/equix/hashx/include
+    ${CMAKE_SOURCE_DIR}/thirdparty/equix/hashx/src 
     ${CUDA_INCLUDE_DIRS}
-    /usr/local/cuda/include  # Explicit path as fallback
 )
 
 target_link_libraries(hashx_sass PRIVATE
