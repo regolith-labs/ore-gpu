@@ -1,8 +1,5 @@
 #include <SASS/Tree/Tree.h>
-#include <SASS/Volta/Volta.h>
-#include <SASS/Volta/IMULInstruction.h>
-
-using namespace SASS::Volta;
+#include <SASS/Utils/PrettyPrinter.h>
 
 SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
     auto program = new SASS::Program();
