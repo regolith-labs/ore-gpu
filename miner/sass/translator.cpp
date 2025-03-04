@@ -26,30 +26,31 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             block->AddInstruction(new SASS::Volta::IADD3Instruction(
                 regs[instr.dst], 
                 regs[instr.src], 
-                new SASS::Constant(0x0, instr.imm32), // Bank and address
+                new SASS::Constant(0x0, instr.imm32),
                 SASS::RZ,
-                SASS::PT // Predicate
+                SASS::PT,
+                SASS::Volta::IADD3Instruction::Flags::NONE
             ));
             break;
         case INSTR_SMULH_R:
-            block->AddInstruction(new SASS::Volta::IMULInstruction(
+            block->AddInstruction(new SASS::Volta::IMULHIInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Volta::IMULInstruction::Mode::HI
+                SASS::Volta::IMULHIInstruction::Mode::HI
             ));
             break;
         case INSTR_UMULH_R:
-            block->AddInstruction(new SASS::Volta::IMULInstruction(
+            block->AddInstruction(new SASS::Volta::IMULHUInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Volta::IMULInstruction::Mode::HI
+                SASS::Volta::IMULHUInstruction::Mode::HI
             ));
             break;
         case INSTR_MUL_R:
-            block->AddInstruction(new SASS::Volta::IMULInstruction(
+            block->AddInstruction(new SASS::Volta::IMUL32IInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Volta::IMULInstruction::Mode::HI
+                new SASS::Constant(0x0, 1) // Multiplier
             ));
             break;
         case INSTR_SUB_R:
@@ -61,10 +62,11 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             ));
             break;
         case INSTR_XOR_R:
-            block->AddInstruction(new SASS::Volta::XORInstruction(
+            block->AddInstruction(new SASS::Volta::LOP3Instruction(
                 regs[instr.dst],
                 regs[instr.src],
-                new SASS::Constant(0x0, instr.imm32) // Bank (0x0) + Address
+                new SASS::Constant(0x0, instr.imm32),
+                SASS::Volta::LOP3Instruction::LogicOp::XOR
             ));
             break;
         case INSTR_ROR_C:
@@ -97,7 +99,9 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
                 throw std::runtime_error("BRANCH without TARGET");
             }
             
-            block->AddInstruction(new SASS::Volta::SSYInstruction(current_target));
+            block->AddInstruction(new SASS::Volta::SSYInstruction(
+                new SASS::BasicBlockOperand(current_target)
+            ));
             current_target = nullptr;
             break;
         }
