@@ -1,9 +1,9 @@
 #include "compiler.h"
 #include "translator.h"
-#include <Assembler/Assembler.h>
+#include <SASS/Volta/Assembler.h>
 
 HashXCompiler::HashXCompiler() : assembler() {
-    assembler.SetComputeCapability(89); // Explicitly set Ada CC 8.9
+    assembler.SetComputeCapability(70); // Volta (CC 7.0)
 }
 
 std::vector<uint8_t> HashXCompiler::compile(const hashx_program& prog) {

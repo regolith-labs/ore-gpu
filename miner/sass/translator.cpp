@@ -1,8 +1,8 @@
 #include <SASS/Tree/Tree.h>
-#include <SASS/Ada/Ada.h>  // For RTX 4090 (Ada Lovelace)
-#include <SASS/Ada/IMADInstruction.h>
+#include <SASS/Volta/Volta.h>
+#include <SASS/Volta/IMULInstruction.h>
 
-using namespace SASS::Ada;
+using namespace SASS::Volta;
 
 SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
     auto program = new SASS::Program();
@@ -23,7 +23,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
     for(const auto& instr : prog.code) {
         switch(instr.opcode) {
         case INSTR_ADD_RS:
-            block->AddInstruction(new SASS::Ada::IADDInstruction_ADA(
+            block->AddInstruction(new SASS::Volta::IADDInstruction_VOLTA(
                 regs[instr.dst], 
                 regs[instr.src],
                 new SASS::Constant(instr.imm32),
@@ -31,28 +31,28 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             ));
             break;
         case INSTR_SMULH_R:
-            block->AddInstruction(new SASS::Ada::IMADInstruction(
+            block->AddInstruction(new SASS::Volta::IMULInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Ada::IMADInstruction::Mode::HI_PLUS
+                SASS::Volta::IMULInstruction::Mode::HI
             ));
             break;
         case INSTR_UMULH_R:
-            block->AddInstruction(new SASS::Ada::IMADInstruction(
+            block->AddInstruction(new SASS::Volta::IMULInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Ada::IMADInstruction::Mode::HI
+                SASS::Volta::IMULInstruction::Mode::HI
             ));
             break;
         case INSTR_MUL_R:
-            block->AddInstruction(new SASS::Ada::IMADInstruction(
+            block->AddInstruction(new SASS::Volta::IMULInstruction(
                 regs[instr.dst],
                 regs[instr.src],
-                SASS::Ada::IMADInstruction::Mode::HI
+                SASS::Volta::IMULInstruction::Mode::HI
             ));
             break;
         case INSTR_SUB_R:
-            block->AddInstruction(new SASS::Ada::IADDInstruction_ADA(
+            block->AddInstruction(new SASS::Volta::IADDInstruction_VOLTA(
                 regs[instr.dst], 
                 regs[instr.src],
                 new SASS::Constant(-instr.imm32),
@@ -60,21 +60,21 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             ));
             break;
         case INSTR_XOR_R:
-            block->AddInstruction(new SASS::Ada::XORInstruction(
+            block->AddInstruction(new SASS::Volta::XORInstruction(
                 regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(instr.imm32)
             ));
             break;
         case INSTR_ROR_C:
-            block->AddInstruction(new SASS::Ada::RORInstruction(
+            block->AddInstruction(new SASS::Volta::RORInstruction(
                 regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(instr.imm32)
             ));
             break;
         case INSTR_ADD_C:
-            block->AddInstruction(new SASS::Ada::IADDInstruction_ADA(
+            block->AddInstruction(new SASS::Volta::IADDInstruction_VOLTA(
                 regs[instr.dst], 
                 regs[instr.src],
                 new SASS::Constant(instr.imm32),
@@ -82,7 +82,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             ));
             break;
         case INSTR_XOR_C:
-            block->AddInstruction(new SASS::Ada::XORInstruction(
+            block->AddInstruction(new SASS::Volta::XORInstruction(
                 regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(instr.imm32)
@@ -99,7 +99,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             // AND operation: temp = src & imm32
             SASS::Register* temp = new SASS::Register(8);
             SASS::Constant* mask = new SASS::Constant(instr.imm32);
-            block->AddInstruction(new SASS::Ada::ANDInstruction(
+            block->AddInstruction(new SASS::Volta::ANDInstruction(
                 temp,
                 regs[instr.src],
                 mask
@@ -107,7 +107,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             
             // Compare with zero
             SASS::Register* zero = new SASS::Register(9);
-            block->AddInstruction(new SASS::Ada::CMPInstruction(
+            block->AddInstruction(new SASS::Volta::CMPInstruction(
                 zero,
                 temp,
                 SASS::RZ
@@ -115,7 +115,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             
             // Conditional branch
             SASS::Register* cmp = new SASS::Register(10);
-            block->AddInstruction(new SASS::Ada::BRAInstruction(
+            block->AddInstruction(new SASS::Volta::BRAInstruction(
                 cmp,
                 current_target
             ));
