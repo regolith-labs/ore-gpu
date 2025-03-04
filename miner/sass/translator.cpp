@@ -1,7 +1,7 @@
 #include <SASS/Tree/Tree.h>
 #include <SASS/Utils/PrettyPrinter.h>
-#include "thirdparty/equix/hashx/src/instruction.h"
-#include "thirdparty/equix/hashx/src/program.h"
+#include <instruction.h>
+#include <program.h>
 
 SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
     auto program = new SASS::Program();

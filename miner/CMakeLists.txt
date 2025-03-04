@@ -12,7 +12,6 @@ target_include_directories(hashx_sass PRIVATE
     ${CMAKE_SOURCE_DIR}/thirdparty/rNdN/include
     ${CMAKE_SOURCE_DIR}/thirdparty/equix/include
     ${CMAKE_SOURCE_DIR}/thirdparty/equix/hashx/include
-    ${CMAKE_SOURCE_DIR}/thirdparty/equix/hashx/src 
     ${CUDA_INCLUDE_DIRS}
 )
 
