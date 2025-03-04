@@ -10,4 +10,5 @@ find_package(GTest REQUIRED)
 find_package(CUDA REQUIRED)
 
 add_subdirectory(thirdparty/rNdN)
+add_subdirectory(thirdparty/equix)
 add_subdirectory(miner)
