@@ -37,9 +37,18 @@ zlib
 ```
 sudo apt-get install zlib1g-dev libgtest-dev
 ```
+Environment:
+```
+export CUDA_HOME=/usr/local/cuda
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+```
+
 
 Build:
 ```
 cd build
 cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON ..
 ```
+
+

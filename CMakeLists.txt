@@ -6,5 +6,8 @@ project(equix-miner LANGUAGES C CXX CUDA)
 find_package(ZLIB REQUIRED)
 find_package(GTest REQUIRED)
 
+# Find CUDA toolkit
+find_package(CUDA REQUIRED)
+
 add_subdirectory(thirdparty/rNdN)
 add_subdirectory(miner)
