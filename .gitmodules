@@ -1,3 +1,7 @@
-[submodule "hashx"]
-	path = hashx
-	url = https://github.com/tevador/hashx
+[submodule "rNdN"]
+	path = thirdparty/rNdN
+	url = https://github.com/akrolik/rNdN
+
+[submodule "equix"]
+	path = thirdparty/equix
+	url = https://github.com/tevador/equix.git

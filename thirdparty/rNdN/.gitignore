@@ -1,0 +1,4 @@
+build
+data
+results/*.log
+results/libdevice.cubin
