@@ -130,20 +130,22 @@ struct GPUSolver {
 
 // Test Kernel
 __global__ void hashx_test_kernel(
-    const hashx_sass_binary* bin,
+    const uint8_t* elf_binary,
     uint64_t nonce,
     uint8_t* output
 ) {
-    // Execute compiled HashX
-    asm volatile (
-        "{\n"
-        ".reg .b32 %r_hashid;\n"
-        "mov.u32 %r_hashid, %0;\n"
-        "call.uni (%r_hashid), _hashx_sass_entry;\n"
-        "}\n" 
-        :: "r"(bin->id) 
-        : "memory"
-    );
+    // Load ELF binary
+    void* elf_ptr = const_cast<uint8_t*>(elf_binary);
+    CUmodule module;
+    cuModuleLoadData(&module, elf_ptr);
+    
+    // Get function pointer
+    CUfunction function;
+    cuModuleGetFunction(&function, module, "hashx_sass");
+    
+    // Launch kernel
+    void* args[] = {&nonce, &output};
+    cuLaunchKernel(function, 1, 1, 1, 1, 1, 1, 0, 0, args, 0);
 
     // Store result
     if(threadIdx.x == 0) {
