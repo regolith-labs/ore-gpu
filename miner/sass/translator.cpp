@@ -1,6 +1,8 @@
 #include <SASS/Tree/Tree.h>
 #include <SASS/Utils/PrettyPrinter.h>
 
+using namespace SASS::Volta;
+
 SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
     auto program = new SASS::Program();
     program->SetComputeCapability(75); // Match target GPU
