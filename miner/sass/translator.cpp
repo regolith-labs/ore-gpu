@@ -24,8 +24,8 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
         switch(instr.opcode) {
         case INSTR_ADD_RS:
             block->AddInstruction(new SASS::Volta::IADD3Instruction(
-                regs[instr.dst], 
-                regs[instr.src], 
+                regs[instr.dst],
+                regs[instr.src],
                 new SASS::Constant(0x0, instr.imm32),
                 SASS::RZ,
                 SASS::PT,
@@ -74,7 +74,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
                 regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(0x0, instr.imm32),
-                SASS::Volta::LOP3Instruction::LogicOp::XOR
+                SASS::Volta::LOP3Instruction::LogicOperator::XOR
             ));
             break;
         case INSTR_ROR_C:
@@ -83,12 +83,12 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
                 regs[instr.src],
                 new SASS::Constant(0x0, instr.imm32),
                 SASS::Volta::SHFInstruction::Direction::R,
-                SASS::Volta::SHFInstruction::Type::ROTATE
+                SASS::Volta::SHFInstruction::Operation::ROR
             ));
             break;
         case INSTR_ADD_C:
             block->AddInstruction(new SASS::Volta::IADD3Instruction(
-                regs[instr.dst], 
+                regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(instr.imm32),
                 SASS::RZ,
@@ -101,7 +101,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
                 regs[instr.dst],
                 regs[instr.src],
                 new SASS::Constant(0x0, instr.imm32),
-                SASS::Volta::LOP3Instruction::LogicOp::XOR
+                SASS::Volta::LOP3Instruction::LogicOperator::XOR
             ));
             break;
         case INSTR_TARGET:
@@ -113,7 +113,7 @@ SASS::Program* translate_hashx_to_sass(const hashx_program& prog) {
             }
             
             block->AddInstruction(new SASS::Volta::BSSYInstruction(
-                new SASS::LabelOperand(current_target),
+                new SASS::BasicBlockOperand(current_target),
                 0
             ));
             current_target = nullptr;
